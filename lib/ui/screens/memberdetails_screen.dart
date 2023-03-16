@@ -15,13 +15,42 @@ class MemberdetailsScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 1,
-        title: const Text(
-          "New Test Request",
-          style: TextStyle(
-            color: Colors.black,
-          ),
+        title: Row(
+          children: [
+            const Icon(
+              Icons.arrow_back,
+              color: Colors.black26,
+            ),
+            Row(
+              children: [
+                Icon(Icons.arrow_back),
+                Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Text(
+                    "Member Details",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         backgroundColor: Colors.white,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Center(
+              child: Text(
+                "Accepted",
+                style: TextStyle(
+                  color: Colors.green,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -10,11 +10,12 @@ class LoginScreen extends StatelessWidget {
       body: Stack(
         children: [
           Stack(
+            alignment: AlignmentDirectional.topCenter,
             children: [
               Image.network(
-                "https://images.unsplash.com/photo-1582719471384-894fbb16e074?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80",
-                fit: BoxFit.cover,
-                height: MediaQuery.of(context).size.height,
+                "https://plus.unsplash.com/premium_photo-1661757221486-183030ef8670?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+                fit: BoxFit.fill,
+                //height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
               ),
               Material(
@@ -24,11 +25,28 @@ class LoginScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                 ),
               ),
-              Center(
-                child: Icon(
-                  Icons.ac_unit,
-                  color: Colors.white,
-                  size: 100,
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.biotech,
+                        color: Colors.white,
+                        size: 100,
+                      ),
+                      Text(
+                        'Online\nDiagnostics',
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
