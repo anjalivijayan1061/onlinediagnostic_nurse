@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:onlinediagnostic_nurse/util/launch_google_map.dart';
 
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -165,6 +166,40 @@ class _TestDetailsScreenState extends State<TestDetailsScreen> {
                           '${getAge(DateTime.parse(widget.testDetails['patient']['dob']))} ${widget.testDetails['patient']['gender']}',
                     ),
                   ),
+                ],
+              ),
+              const Divider(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: LabelWithText(
+                      label: 'Address',
+                      text:
+                          '${widget.testDetails['patient']['address']}\n${widget.testDetails['patient']['city']}, ${widget.testDetails['patient']['district']}, ${widget.testDetails['patient']['state']}',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: LabelWithText(
+                      label: 'Phone',
+                      text: '${widget.testDetails['patient']['phone']}',
+                    ),
+                  ),
+                  if (widget.testDetails['patient']['latitude'] != null)
+                    TextButton(
+                      onPressed: () {
+                        launchGoogleMaps(
+                            widget.testDetails['patient']['latitude'],
+                            widget.testDetails['patient']['longitude']);
+                      },
+                      child: const Text('View Location'),
+                    )
                 ],
               ),
               const Divider(
