@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:onlinediagnostic_nurse/ui/screens/about_screen.dart';
-import 'package:onlinediagnostic_nurse/ui/screens/complaints_screen.dart';
-import 'package:onlinediagnostic_nurse/ui/screens/signin_screen.dart';
-import 'package:onlinediagnostic_nurse/ui/widget/custom_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../widget/custom_button.dart';
+import '../about_screen.dart';
+import '../complaints_screen.dart';
+import '../profile_screen.dart';
+import '../signin_screen.dart';
+import '../suggestion_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -25,6 +28,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ListTile(
+          //   leading: const Icon(Icons.person),
+          //   title: const Text('Profile'),
+          //   trailing: const Icon(Icons.arrow_right),
+          //   onTap: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => const ProfileScreen(),
+          //       ),
+          //     );
+          //   },
+          // ),
+          // const Divider(),
           ListTile(
             leading: const Icon(Icons.info),
             title: const Text('About'),
@@ -53,6 +70,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ComplaintsScreen(),
+                ),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.light_mode_sharp),
+            title: const Text('Suggestion'),
+            trailing: const Icon(Icons.arrow_right),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SuggestionScreen(),
                 ),
               );
             },

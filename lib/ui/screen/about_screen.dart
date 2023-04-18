@@ -18,11 +18,11 @@ class AboutScreen extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        title: const Text(
-          "About",
-          style: TextStyle(
-            color: Colors.black,
-          ),
+        title: Text(
+          'About',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Colors.black,
+              ),
         ),
         backgroundColor: Colors.white,
       ),

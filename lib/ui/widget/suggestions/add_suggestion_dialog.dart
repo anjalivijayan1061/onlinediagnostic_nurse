@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
 
-import '../../../blocs/complaint/complaint_bloc.dart';
+import '../../../blocs/suggestion/suggestion_bloc.dart';
 import '../custom_button.dart';
 
-class AddComplaintDialog extends StatefulWidget {
-  final int testBookingId;
-  const AddComplaintDialog({
+class AddSuggestionDialog extends StatefulWidget {
+  const AddSuggestionDialog({
     super.key,
-    required this.testBookingId,
   });
 
   @override
-  State<AddComplaintDialog> createState() => _AddComplaintDialogState();
+  State<AddSuggestionDialog> createState() => _AddSuggestionDialogState();
 }
 
-class _AddComplaintDialogState extends State<AddComplaintDialog> {
+class _AddSuggestionDialogState extends State<AddSuggestionDialog> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController complaintController = TextEditingController();
-
+  TextEditingController suggestionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -36,9 +32,18 @@ class _AddComplaintDialogState extends State<AddComplaintDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Send your complaint",
+                "Send your suggestion",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Colors.black,
+                    ),
+              ),
+              const SizedBox(
+                height: 3,
+              ),
+              Text(
+                "What could be improved ?",
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: Colors.black87,
                     ),
               ),
               const SizedBox(
@@ -47,23 +52,20 @@ class _AddComplaintDialogState extends State<AddComplaintDialog> {
               TextFormField(
                 maxLines: 3,
                 minLines: 3,
-                controller: complaintController,
+                controller: suggestionController,
                 validator: (value) {
                   if (value != null && value.trim().isNotEmpty) {
                     return null;
                   } else {
-                    return 'Please enter a complaint';
+                    return 'Please enter a suggestion';
                   }
                 },
                 decoration: const InputDecoration(
-                  labelText: "Complaint",
+                  labelText: "Suggestion",
                   prefixIcon: Icon(
-                    Icons.warning,
+                    Icons.comment,
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
               ),
               const SizedBox(
                 height: 10,
@@ -85,10 +87,9 @@ class _AddComplaintDialogState extends State<AddComplaintDialog> {
                       label: 'Send',
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          BlocProvider.of<ComplaintBloc>(context).add(
-                            AddComplaintEvent(
-                              complaint: complaintController.text.trim(),
-                              testBookingId: widget.testBookingId,
+                          BlocProvider.of<SuggestionBloc>(context).add(
+                            AddSuggestionEvent(
+                              suggestion: suggestionController.text.trim(),
                             ),
                           );
 

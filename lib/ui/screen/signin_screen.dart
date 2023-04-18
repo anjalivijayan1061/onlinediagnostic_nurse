@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onlinediagnostic_nurse/blocs/auth/sign_in/sign_in_bloc.dart';
-import 'package:onlinediagnostic_nurse/ui/screens/home_screen.dart';
-import 'package:onlinediagnostic_nurse/ui/widget/custom_alert_dialog.dart';
-import 'package:onlinediagnostic_nurse/ui/widget/custom_button.dart';
+import 'package:onlinediagnostic_nurse/ui/screen/signup_screen.dart';
+
+import '../../blocs/auth/sign_in/sign_in_bloc.dart';
+import '../widget/custom_alert_dialog.dart';
+import '../widget/custom_button.dart';
+import 'home_screen_sections/home_screen.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -172,6 +174,19 @@ class _SigninScreenState extends State<SigninScreen> {
                                     ),
                                   );
                                 }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CustomButton(
+                              label: 'Signup',
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignupScreen(),
+                                  ),
+                                );
                               },
                             ),
                             const SizedBox(

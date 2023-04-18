@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onlinediagnostic_nurse/blocs/complaint/complaint_bloc.dart';
-import 'package:onlinediagnostic_nurse/ui/widget/complaints/add_complaint_dialog.dart';
-import 'package:onlinediagnostic_nurse/ui/widget/complaints/complaint_card.dart';
-import 'package:onlinediagnostic_nurse/ui/widget/custom_alert_dialog.dart';
-import 'package:onlinediagnostic_nurse/ui/widget/custom_icon_button.dart';
+
+import '../../blocs/complaint/complaint_bloc.dart';
+import '../widget/complaints/complaint_card.dart';
+import '../widget/custom_alert_dialog.dart';
+import '../widget/custom_icon_button.dart';
 
 class ComplaintsScreen extends StatefulWidget {
   const ComplaintsScreen({super.key});
@@ -46,29 +46,6 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
                 ),
           ),
           backgroundColor: Colors.white,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(
-                right: 20,
-              ),
-              child: IconButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => BlocProvider<ComplaintBloc>.value(
-                      value: complaintBloc,
-                      child: const AddComplaintDialog(),
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.add,
-                  size: 30,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-          ],
         ),
         body: SafeArea(
           child: BlocConsumer<ComplaintBloc, ComplaintState>(
@@ -114,7 +91,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
                                       )
                                     : const Center(
                                         child: Text(
-                                          'No complaints found!\nClick on + button on the appbar to send a complaint',
+                                          'No complaints found!',
                                           textAlign: TextAlign.center,
                                         ),
                                       )

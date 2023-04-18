@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:onlinediagnostic_nurse/ui/screens/home_screen.dart';
-import 'package:onlinediagnostic_nurse/ui/screens/signin_screen.dart';
-import 'package:onlinediagnostic_nurse/ui/widget/branding.dart';
+import 'package:onlinediagnostic_nurse/ui/screen/signin_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../widget/branding.dart';
+import 'home_screen_sections/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

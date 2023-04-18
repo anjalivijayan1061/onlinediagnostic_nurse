@@ -1,71 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class CustomActionButton extends StatelessWidget {
-  final IconData iconData;
+class CustomActionButton extends StatefulWidget {
   final String label;
-  final Color color;
-  final Function() onPressed;
-  final bool isLoading;
-  final MainAxisSize mainAxisSize;
+  final Function() onTap;
+  final IconData icon;
+  final bool isSelected;
   const CustomActionButton({
-    super.key,
-    required this.iconData,
-    this.color = Colors.blue,
-    required this.onPressed,
+    Key? key,
     required this.label,
-    this.isLoading = false,
-    this.mainAxisSize = MainAxisSize.max,
-  });
+    required this.onTap,
+    this.icon = Icons.add,
+    this.isSelected = false,
+  }) : super(key: key);
 
+  @override
+  State<CustomActionButton> createState() => _CustomActionButtonState();
+}
+
+class _CustomActionButtonState extends State<CustomActionButton> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: color.withOpacity(.1),
-      borderRadius: BorderRadius.circular(0),
-      child: InkWell(
-        onTap: onPressed,
-        hoverColor: color.withOpacity(.15),
-        focusColor: color.withOpacity(.15),
-        highlightColor: color.withOpacity(.15),
-        splashColor: color.withOpacity(.2),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0),
+        side: const BorderSide(
+          color: Colors.grey,
+          width: 1,
+        ),
+      ),
+      child: InkWell(
+        onTap: widget.onTap,
+        focusColor: Colors.grey[50],
+        hoverColor: Colors.grey[50],
+        highlightColor: Colors.grey[50],
+        splashColor: Colors.grey[100],
         child: Padding(
-          padding: const EdgeInsets.only(
-            left: 10,
-            right: 10,
-            top: 10,
-            bottom: 10,
-          ),
-          child: isLoading
-              ? SizedBox(
-                  width: 50,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: LinearProgressIndicator(
-                      color: color,
-                      backgroundColor: color.withOpacity(.2),
-                    ),
-                  ),
-                )
-              : Row(
-                  mainAxisSize: mainAxisSize,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(width: 5),
-                    Text(
-                      label,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            color: color,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    Icon(
-                      iconData,
-                      color: color,
-                      size: 16,
-                    ),
-                  ],
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          child: Row(
+            children: [
+              Icon(
+                widget.icon,
+                color: Colors.blue,
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Expanded(
+                child: Text(
+                  widget.label,
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w800,
+                      ),
                 ),
+              ),
+              widget.isSelected
+                  ? const Icon(
+                      Icons.check_circle_rounded,
+                      color: Colors.green,
+                    )
+                  : const SizedBox(),
+            ],
+          ),
         ),
       ),
     );

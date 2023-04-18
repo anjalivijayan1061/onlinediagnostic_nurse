@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onlinediagnostic_nurse/blocs/get_all_tests/get_all_tests_bloc.dart';
 
+import '../../blocs/get_all_tests/get_all_tests_bloc.dart';
 import 'custom_alert_dialog.dart';
 
 class TestSelector extends StatefulWidget {

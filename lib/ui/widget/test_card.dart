@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class TestCard extends StatelessWidget {
-  final bool isActive;
-  final String date, status, name;
+import '../../blocs/orders/orders_bloc.dart';
+import '../screen/test_details_screen.dart';
+import 'label_with_text.dart';
 
-  const TestCard({
+class TestBookingCard extends StatelessWidget {
+  final Map<String, dynamic> testBookingDetails;
+  final OrdersBloc ordersBloc;
+  final Function() onBack;
+
+  const TestBookingCard({
     Key? key,
-    required this.date,
-    required this.status,
-    required this.name,
-    this.isActive = true,
+    required this.testBookingDetails,
+    required this.onBack,
+    required this.ordersBloc,
   }) : super(key: key);
 
   @override
@@ -33,70 +39,179 @@ class TestCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    date,
+                    '#${testBookingDetails['id']}',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   Text(
-                    status,
-                    style: const TextStyle(color: Colors.green),
+                    testBookingDetails['status'],
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: testBookingDetails['status'].toLowerCase() ==
+                                  'accepted'
+                              ? Colors.green
+                              : Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                 ],
               ),
-              const Divider(),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Test 1',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 15),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Test 2',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 15),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Test 3',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 15),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  '3 more test ',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 15),
-                ),
-              ),
-              const Divider(),
+              const Divider(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    name,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold),
+                  LabelWithText(
+                    label: 'Memeber Name',
+                    text: testBookingDetails['patient']['name'],
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue[400],
-                    ),
-                    child: const Text('Details'),
+                  LabelWithText(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    label: 'Date',
+                    text: DateFormat('dd/MM/yyyy').format(
+                        DateTime.parse(testBookingDetails['created_at'])),
                   ),
                 ],
+              ),
+              const Divider(
+                height: 20,
+              ),
+              ...List<Widget>.generate(
+                testBookingDetails['test_booking_items'].length,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2.5),
+                  child: Material(
+                    color: Colors.blueGrey[50],
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 15,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              testBookingDetails['test_booking_items'][index]
+                                  ['test']['name'],
+                              textAlign: TextAlign.left,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                            ),
+                          ),
+                          Text(
+                            testBookingDetails['test_booking_items'][index]
+                                ['status'],
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              testBookingDetails['test_booking_items'].length > 3
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${testBookingDetails['test_booking_items'].length - 3} more test ',
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                    )
+                  : const SizedBox(),
+              testBookingDetails['payment_status'] != 'paid'
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                              '₹${testBookingDetails['total_price']} Payment Pending',
+                              textAlign: TextAlign.end,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 15, color: Colors.red[600])),
+                        ],
+                      ),
+                    )
+                  : const SizedBox(),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Row(
+                  mainAxisAlignment: testBookingDetails['status'] == 'pending'
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.end,
+                  children: [
+                    testBookingDetails['status'] == 'pending'
+                        ? TextButton(
+                            onPressed: () {
+                              ordersBloc.add(
+                                ChangeOrderStatusEvent(
+                                  orderId: testBookingDetails['id'],
+                                  status: 'collected',
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.done,
+                                  color: Colors.green[400],
+                                  size: 20,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'Collected',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : const SizedBox(),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => TestDetailsScreen(
+                              testDetails: testBookingDetails,
+                              ordersBloc: ordersBloc,
+                            ),
+                          ),
+                        );
+                        onBack();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[400],
+                      ),
+                      child: const Text('Details'),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

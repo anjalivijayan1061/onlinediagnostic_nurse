@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class CustomCard extends StatefulWidget {
+class CustomNewCard extends StatefulWidget {
   final Widget child;
   final Color? color;
   final double borderRadius;
   final Function()? onPressed;
 
-  const CustomCard({
+  const CustomNewCard({
     super.key,
     required this.child,
     this.onPressed,
@@ -15,10 +15,10 @@ class CustomCard extends StatefulWidget {
   });
 
   @override
-  CustomCardState createState() => CustomCardState();
+  CustomNewCardState createState() => CustomNewCardState();
 }
 
-class CustomCardState extends State<CustomCard> {
+class CustomNewCardState extends State<CustomNewCard> {
   bool _isHovering = false;
 
   @override
